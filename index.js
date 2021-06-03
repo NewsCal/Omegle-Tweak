@@ -59,7 +59,6 @@ const api = {
         const time_api = "https://worldtimeapi.org/api/ip/";
         const vpn_api = "https://vpnapi.io/api/";
         const location_data = await api.fetch_json(`${location_api}${ip}`);
-        const vpn_data = await api.cors_proxy(`${vpn_api}${ip}`);
         const time_data = await api.time.fetch(ip, time_api, location_data.timezone_gmtOffset);
         const data = {
             ip: ip,
@@ -73,11 +72,6 @@ const api = {
             time_source: time_data.source
         };
         return data;
-    },
-    cors_proxy: async function (url) {
-        const response = await fetch(`https://api.allorigins.win/get?url=${url}`, { referrerPolicy: 'no-referrer' });
-        const data = await response.json();
-        return JSON.parse(data.contents);
     },
     fetch_json: async function (url) {
         const response = await fetch(url, { referrerPolicy: 'no-referrer' });
